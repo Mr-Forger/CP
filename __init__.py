@@ -10,7 +10,7 @@ bl_info = {
     "name": "MeshMetry",
     "author": "SeungHan Moon",
     "version": (0, 1, 1),
-    "blender": (4, 00, 0),
+    "blender": (2, 80, 0),
     "location": "View3D > Tool Shelf > MeshMetry Tab",
     "description": "Add randomized geometry to a mesh",
     "warning": "This addon can be slow and use a lot of RAM, keep an eye on your system resources with high numbers of iterations",
