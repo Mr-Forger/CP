@@ -224,7 +224,7 @@ class MeshMetryOperator(bpy.types.Operator):
                     bom.select_less()
 
                 # extrude
-                ext = round(randfloat(rmp.extrudeMin, rmp.extrudeMax), 4)
+                ext = round(randomfloat(rmp.extrudeMin, rmp.extrudeMax), 4)
                 if rmp.extrude == True:
                     if ext != 0:
                         bom.extrude_region_shrink_fatten(
@@ -266,7 +266,7 @@ class MeshMetryOperator(bpy.types.Operator):
 
                 # decimate
                 start = time.time()
-                ratio = round(randfloat(0.25, 0.5), 2)
+                ratio = round(randomfloat(0.25, 0.5), 2)
                 bom.decimate(ratio=ratio, use_vertex_group=True)
                 end = time.time()
                 print("\nDecimation: " + str(round((end - start), 4)) + "s\tRatio: " + str(ratio))
@@ -282,7 +282,7 @@ class MeshMetryOperator(bpy.types.Operator):
             if rmp.wireframe == True:
                 # wire
                 start = time.time()
-                thickness = round(randfloat(0.1, 0.4), 2)
+                thickness = round(randomfloat(0.1, 0.4), 2)
                 bom.select_all(action='SELECT')
                 bom.duplicate()
                 bom.faces_shade_flat()
