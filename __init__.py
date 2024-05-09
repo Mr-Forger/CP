@@ -174,20 +174,21 @@ class MeshMetryOperator(bpy.types.Operator):
         def randomfloat(low, high):
             return random.random() * (high - low) + low
 
-        def rsl(pct):
+        def randomselect(percentage):
             if (2, 93, 0) > bpy.app.version:
-                bpy.ops.mesh.select_random(percent=pct, seed=randint(1, 9999))
+                bpy.ops.mesh.select_random(percent=percentage, seed=randint(1, 9999))
             else:
-                bpy.ops.mesh.select_random(ratio=pct / 100, seed=randint(1, 9999))
+                bpy.ops.mesh.select_random(ratio=percentage / 100, seed=randint(1, 9999))
 
-        def rgs(pct, min, max):
-            rsl(pct)
+        def randomgrowshrink(percentage, min, max):
+            randomselect(percentage)
             for j in range(min, max):
                 bpy.ops.mesh.select_more()
 
         def meshmetry(iter):
             opstart = time.time()  # 연산 시작
 
+            # 줄임말로 통일
             boo = bpy.ops.object
             bom = bpy.ops.mesh
 
@@ -215,7 +216,7 @@ class MeshMetryOperator(bpy.types.Operator):
                 print()
 
                 # select random & grow
-                rgs(0.15, 0, grow)
+                randomgrowshrink(0.15, 0, grow)
                 if grow > 10:
                     max += 1
 
@@ -259,7 +260,7 @@ class MeshMetryOperator(bpy.types.Operator):
             if rmp.decimate == True:
                 # vgroup
                 bom.select_all(action='DESELECT')
-                rgs(0.5, 5, 8)
+                randomgrowshrink(0.5, 5, 8)
                 boo.vertex_group_add()
                 boo.vertex_group_assign()
                 boo.vertex_group_smooth(repeat=randint(0, 10))
