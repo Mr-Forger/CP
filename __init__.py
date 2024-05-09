@@ -13,7 +13,7 @@ bl_info = {
     "blender": (4, 10, 0),
     "location": "View3D > Tool Shelf > MeshMetry Tab",
     "description": "Add randomized geometry to a mesh",
-    "warning": "This addon can be slow and use a lot of RAM, focus on your system resources with high numbers of iterations",
+    "warning": "이 애드온은 램을 많이 잡아먹고 느립니다. 많은 반복이 실행될 때, 시스템 자원을 얼마나 사용하는지 지켜봐 주세요!",
     "category": "3D View",
 }
 
