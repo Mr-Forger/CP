@@ -9,8 +9,8 @@ from bpy.types import (Panel, Operator, PropertyGroup)
 bl_info = {
     "name": "MeshMetry",
     "author": "SeungHan Moon",
-    "version": (0, 1, 1),
-    "blender": (2, 80, 0),
+    "version": (1, 0, 0),
+    "blender": (4, 10, 0),
     "location": "View3D > Tool Shelf > MeshMetry Tab",
     "description": "Add randomized geometry to a mesh",
     "warning": "This addon can be slow and use a lot of RAM, focus on your system resources with high numbers of iterations",
@@ -306,7 +306,7 @@ class MeshMetryOperator(bpy.types.Operator):
             bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
 
         if bpy.context.object.mode != 'OBJECT':
-            errmsg("RandoMesh only works in object mode", "Uh Oh!", 'ERROR')
+            errmsg("Meshmetry only works in object mode", "Uh Oh!", 'ERROR')
         else:
             meshmetry(rmp.iterations)
 
@@ -317,7 +317,7 @@ class MeshMetryOperator(bpy.types.Operator):
 def register():
     bpy.utils.register_class(MeshMetryUiPanel)
     bpy.utils.register_class(MeshMetryOperator)
-    bpy.utils.register_class(MeshMetryOperator)
+    bpy.utils.register_class(MeshMetryProp)
     bpy.types.Scene.rmprop = PointerProperty(type=MeshMetryProp)
 
 
