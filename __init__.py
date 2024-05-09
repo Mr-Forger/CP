@@ -13,11 +13,9 @@ bl_info = {
     "blender": (2, 80, 0),
     "location": "View3D > Tool Shelf > MeshMetry Tab",
     "description": "Add randomized geometry to a mesh",
-    "warning": "This addon can be slow and use a lot of RAM, keep an eye on your system resources with high numbers of iterations",
+    "warning": "This addon can be slow and use a lot of RAM, focus on your system resources with high numbers of iterations",
     "category": "3D View",
 }
-
-
 
 
 class MeshMetryProp(PropertyGroup):
@@ -112,7 +110,7 @@ class MeshMetryProp(PropertyGroup):
     )
 
 
-#UI
+# UI
 class MeshMetryUiPanel(bpy.types.Panel):
     bl_label = "MeshMetry"
     bl_idname = "OBJECT_PT_meshmetry"
@@ -159,5 +157,83 @@ class MeshMetryUiPanel(bpy.types.Panel):
         sub.scale_y = 2.0
         sub.operator("wm.meshmetry")
 
+
 # 오퍼레이터
 class MeshMetryOperator(bpy.types.Operator):
+    bl_idname = "wm.meshmetry"
+    bl_label = "Destroy Mesh"
+
+    @classmethod
+    def poll(cls, context):
+        return context.active_object is not None
+
+    def execute(self, context):
+
+        rmp = bpy.context.scene.rmprop
+
+        def randomfloat(low, high):
+            return random.random() * (high - low) + low
+
+        def rsl(pct):
+            if (4, 10, 0) > bpy.app.version:
+                bpy.ops.mesh.select_random(percent=pct, seed=randint(1, 9999))
+            else:
+                bpy.ops.mesh.select_random(ratio=pct / 100, seed=randint(1, 9999))
+
+        def rgs(pct, min, max):
+            rsl(pct)
+            for j in range(min, max):
+                bpy.ops.mesh.select_more()
+
+        def meshmetry(iter):
+            opstart = time.time()  # 연산 시작
+
+            boo = bpy.ops.object
+            bom = bpy.ops.mesh
+
+            print("Iterations: " + str(iter) + '\n' + "-------")
+
+            if rmp.keep == True:
+                boo.duplicate()
+
+            boo.convert(target='MESH')
+
+            # deselect
+            boo.editmode_toggle()
+            bom.select_mode(use_extend=False, use_expand=False, type=rmp.mode)
+            bom.select_all(action='SELECT')
+
+
+
+        def errmsg(message="", title="Message Box", icon='INFO'):
+
+            def draw(self, context):
+                self.layout.label(text=message)
+
+            bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
+
+        if bpy.context.object.mode != 'OBJECT':
+            errmsg("RandoMesh only works in object mode", "Uh Oh!", 'ERROR')
+        else:
+            meshmetry(rmp.iterations)
+
+        return {'FINISHED'}
+
+
+# 등록 및 실행
+def register():
+    bpy.utils.register_class(MeshMetryUiPanel)
+    bpy.utils.register_class(MeshMetryOperator)
+    bpy.utils.register_class(MeshMetryOperator)
+    bpy.types.Scene.rmprop = PointerProperty(type=MeshMetryProp)
+
+
+def unregister():
+    bpy.utils.unregister_class(MeshMetryUiPanel)
+    bpy.utils.unregister_class(MeshMetryOperator)
+    bpy.utils.unregister_class(MeshMetryProp)
+    del bpy.types.Scene.rmprop
+
+
+if __name__ == "__main__":
+    register()
