@@ -203,7 +203,100 @@ class MeshMetryOperator(bpy.types.Operator):
             bom.select_mode(use_extend=False, use_expand=False, type=rmp.mode)
             bom.select_all(action='SELECT')
 
+            max = 0
 
+            for i in range(0, iter):
+                start = time.time()
+
+                bom.select_all(action='DESELECT')
+
+                grow = randint(6, 12) - max
+                shrink = randint(1, 3)
+                print()
+
+                # select random & grow
+                rgs(0.15, 0, grow)
+                if grow > 10:
+                    max += 1
+
+                # shrink selection
+                for j in range(0, shrink):
+                    bom.select_less()
+
+                # extrude
+                ext = round(randfloat(rmp.extrudeMin, rmp.extrudeMax), 4)
+                if rmp.extrude == True:
+                    if ext != 0:
+                        bom.extrude_region_shrink_fatten(
+                            TRANSFORM_OT_shrink_fatten={"value": -ext})  # "use_even_offset":True
+
+                mutate = randint(0, 6)
+                poke = False
+                tri = False
+
+                # poke
+                if rmp.poke == True and mutate < 2:
+                    for j in range(3, 10):
+                        bom.select_less()
+                    bom.poke(offset=0, use_relative_offset=True)
+                    poke = True
+
+                # triangulate
+                if rmp.tri == True and mutate > 4:
+                    for j in range(3, 10):
+                        bom.select_less()
+                    bom.quads_convert_to_tris(quad_method='SHORTEST_DIAGONAL', ngon_method='CLIP')
+                    tri = True
+
+                # subdivide
+                bom.subdivide(number_cuts=1, quadcorner='INNERVERT', fractal=0.0, smoothness=rmp.subSmooth)
+
+                end = time.time()
+                print("Iteration #" + str(i + 1) + ": " + str(round((end - start), 3)) + "s\tG:" + str(
+                    grow) + " | S:" + str(shrink) + " | Extrude: " + str(ext) + "\tP:" + (str(poke)[0:1]) + "\tT:" + (
+                          str(tri)[0:1]))
+
+            if rmp.decimate == True:
+                # vgroup
+                bom.select_all(action='DESELECT')
+                rgs(0.5, 5, 8)
+                boo.vertex_group_add()
+                boo.vertex_group_assign()
+                boo.vertex_group_smooth(repeat=randint(0, 10))
+
+                # decimate
+                start = time.time()
+                ratio = round(randfloat(0.25, 0.5), 2)
+                bom.decimate(ratio=ratio, use_vertex_group=True)
+                end = time.time()
+                print("\nDecimation: " + str(round((end - start), 4)) + "s\tRatio: " + str(ratio))
+
+            if rmp.smooth == True:
+                # smooth
+                start = time.time()
+                repeat = randint(5, 30)
+                bom.vertices_smooth(repeat=repeat)
+                end = time.time()
+                print("Smoothing: " + str(round((end - start), 4)) + "s\tIterations: " + str(repeat))
+
+            if rmp.wireframe == True:
+                # wire
+                start = time.time()
+                thickness = round(randfloat(0.1, 0.4), 2)
+                bom.select_all(action='SELECT')
+                bom.duplicate()
+                bom.faces_shade_flat()
+                bom.separate()
+                bom.select_all(action='SELECT')
+                bom.wireframe(use_boundary=True, use_even_offset=False, use_relative_offset=True, use_replace=True,
+                              thickness=thickness)
+                end = time.time()
+                print("Wireframe: " + str(round((end - start), 4)) + "s\tThickness: " + str(thickness))
+
+            boo.editmode_toggle()
+
+            opend = time.time()
+            print("Done! (" + str(round((opend - opstart), 0)) + "s total)")
 
         def errmsg(message="", title="Message Box", icon='INFO'):
 
