@@ -180,7 +180,7 @@ class MeshMetryOperator(bpy.types.Operator):
             else:
                 bpy.ops.mesh.select_random(ratio=percentage / 100, seed=randint(1, 9999))
 
-        def randomgs(percentage, min, max):
+        def randomgs(percentage, min, max): # grow and shrink
             randomselect(percentage)
             for j in range(min, max):
                 bpy.ops.mesh.select_more()
