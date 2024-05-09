@@ -175,7 +175,7 @@ class MeshMetryOperator(bpy.types.Operator):
             return random.random() * (high - low) + low
 
         def rsl(pct):
-            if (4, 10, 0) > bpy.app.version:
+            if (2, 93, 0) > bpy.app.version:
                 bpy.ops.mesh.select_random(percent=pct, seed=randint(1, 9999))
             else:
                 bpy.ops.mesh.select_random(ratio=pct / 100, seed=randint(1, 9999))
