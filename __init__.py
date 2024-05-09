@@ -161,7 +161,7 @@ class MeshMetryUiPanel(bpy.types.Panel):
 # 오퍼레이터
 class MeshMetryOperator(bpy.types.Operator):
     bl_idname = "wm.meshmetry"
-    bl_label = "Destroy Mesh"
+    bl_label = "Let's MeshMetry!"
 
     @classmethod
     def poll(cls, context):
