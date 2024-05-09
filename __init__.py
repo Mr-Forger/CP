@@ -253,8 +253,8 @@ class MeshMetryOperator(bpy.types.Operator):
                 bom.subdivide(number_cuts=1, quadcorner='INNERVERT', fractal=0.0, smoothness=rmp.subSmooth)
 
                 end = time.time()
-                print("Iteration #" + str(i + 1) + ": " + str(round((end - start), 3)) + "s\tG:" + str(
-                    grow) + " | S:" + str(shrink) + " | Extrude: " + str(ext) + "\tP:" + (str(poke)[0:1]) + "\tT:" + (
+                print("Iteration #" + str(i + 1) + ": " + str(round((end - start), 3)) + "s\tGROW:" + str(
+                    grow) + " | SHRINK:" + str(shrink) + " | Extrude: " + str(ext) + "\tPOKE:" + (str(poke)[0:1]) + "\tTRIANGULATION:" + (
                           str(tri)[0:1]))
 
             if rmp.decimate == True:
