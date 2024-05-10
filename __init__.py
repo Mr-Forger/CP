@@ -180,7 +180,7 @@ class MeshMetryOperator(bpy.types.Operator):
             else:
                 bpy.ops.mesh.select_random(ratio=percentage / 100, seed=randint(1, 9999))
 
-        def randomgs(percentage, min, max): # grow and shrink
+        def randomgrownshrink(percentage, min, max): # grow and shrink
             randomselect(percentage)
             for j in range(min, max):
                 bpy.ops.mesh.select_more()
@@ -216,7 +216,7 @@ class MeshMetryOperator(bpy.types.Operator):
                 print()
 
                 # select random & grow
-                randomgs(0.15, 0, grow)
+                randomgrownshrink(0.15, 0, grow)
                 if grow > 10:
                     max += 1
 
@@ -260,7 +260,7 @@ class MeshMetryOperator(bpy.types.Operator):
             if rmp.decimate == True:
                 # vgroup
                 bom.select_all(action='DESELECT')
-                randomgs(0.5, 5, 8)
+                randomgrownshrink(0.5, 5, 8)
                 boo.vertex_group_add()
                 boo.vertex_group_assign()
                 boo.vertex_group_smooth(repeat=randint(0, 10))
