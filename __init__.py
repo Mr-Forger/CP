@@ -297,7 +297,7 @@ class MeshMetryOperator(bpy.types.Operator):
             boo.editmode_toggle()
 
             opend = time.time()
-            print("Done! (" + str(round((opend - opstart), 0)) + "s total)")
+            print("성공했습니다! (" + str(round((opend - opstart), 0)) + "s total)")
 
         def errmsg(message="", title="Message Box", icon='INFO'):
 
@@ -307,7 +307,7 @@ class MeshMetryOperator(bpy.types.Operator):
             bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
 
         if bpy.context.object.mode != 'OBJECT':
-            errmsg("Meshmetry only works in object mode", "Uh Oh!", 'ERROR')
+            errmsg("Meshmetry는 오브젝트 모드에서만 작동합니다.", "에헤이!", 'ERROR')
         else:
             meshmetry(rmp.iterations)
 
