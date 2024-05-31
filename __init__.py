@@ -254,8 +254,7 @@ class MeshMetryOperator(bpy.types.Operator):
 
                 end = time.time()
                 print("Iteration #" + str(i + 1) + ": " + str(round((end - start), 3)) + "s\tGROW:" + str(
-                    grow) + " | SHRINK:" + str(shrink) + " | Extrude: " + str(ext) + "\tPOKE:" + (str(poke)[0:1]) + "\tTRIANGULATION:" + (
-                          str(tri)[0:1]))
+                    grow) + " | SHRINK:" + str(shrink) + " | Extrude: " + str(ext) + "\tPOKE:" + (str(poke)[0:1]) + "\tTRIANGULATION:" + (str(tri)[0:1]))
 
             if rmp.decimate == True:
                 # vgroup
@@ -289,15 +288,14 @@ class MeshMetryOperator(bpy.types.Operator):
                 bom.faces_shade_flat()
                 bom.separate()
                 bom.select_all(action='SELECT')
-                bom.wireframe(use_boundary=True, use_even_offset=False, use_relative_offset=True, use_replace=True,
-                              thickness=thickness)
+                bom.wireframe(use_boundary=True, use_even_offset=False, use_relative_offset=True, use_replace=True, thickness=thickness)
                 end = time.time()
                 print("Wireframe: " + str(round((end - start), 4)) + "s\tThickness: " + str(thickness))
 
             boo.editmode_toggle()
 
             opend = time.time()
-            print("성공했습니다! (" + str(round((opend - opstart), 0)) + "s total)")
+            print("성공했습니다! (" + str(round((opend - opstart), 0)) + "s total)\n")
 
         def errmsg(message="", title="Message Box", icon='INFO'):
 
