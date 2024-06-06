@@ -161,7 +161,7 @@ class MeshMetryUiPanel(bpy.types.Panel):
 # 오퍼레이터
 class MeshMetryOperator(bpy.types.Operator):
     bl_idname = "wm.meshmetry"
-    bl_label = "Let's MeshMetry!"
+    bl_label = "Let's MeshMetry!!"
 
     @classmethod
     def poll(cls, context):
@@ -305,7 +305,7 @@ class MeshMetryOperator(bpy.types.Operator):
             bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
 
         if bpy.context.object.mode != 'OBJECT':
-            errmsg("Meshmetry는 오브젝트 모드에서만 작동합니다.", "에헤이!", 'ERROR')
+            errmsg("MeshMetry only works in object mode.", "Oh no!", 'ERROR')
         else:
             meshmetry(rmp.iterations)
 
